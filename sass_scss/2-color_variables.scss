@@ -1,0 +1,16 @@
+/* assinging more colors to more things */
+$text-color: #3D3D3D;
+$background-color: #6D6D6D;
+
+body {
+    color: #{$text-color};
+    color: #{$background-color};
+}
+
+p {
+    color: #{$text-color};
+}
+
+h2 {
+    color: #{$background-color};
+}
