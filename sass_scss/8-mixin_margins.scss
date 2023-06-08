@@ -1,0 +1,19 @@
+/* mixin for body and div tags */
+
+@mixin bodyMargin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+body {
+  @include bodyMargin;
+}
+
+@mixin divMargin {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+div {
+  @include divMargin;
+}
