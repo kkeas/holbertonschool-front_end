@@ -655,13 +655,13 @@
     margin: 10rem 0 0 auto;
     padding-left: 7rem;
   }
-  .section-title {
+  .post-comments .section-title {
     font-variant: small-caps;
   }
 /*comment section
 /* Basic form
     ============================= */
-    form {
+    .form {
       display: flex;
       flex-direction: column;
       padding: 1rem 0;
