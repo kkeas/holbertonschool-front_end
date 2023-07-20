@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3</title>
+</head>
+
+<body>
+    <div id="login-form">
+        <h2>Login Form</h2>
+        <input type="text" id="firstname" placeholder="Firstname">
+        <input type="text" id="email" placeholder="Email">
+        <button onclick="setCookies()">Log me in</button>
+    </div>
+
+    <script>
+        function setCookies() {
+            let expires = new Date(
+                Date.now() +
+                10 * // 10 days
+                24 * // Hours in a day
+                60 * // Minutes in an hour
+                60 * // Seconds in a minute
+                1000 // Milliseconds in a second
+            );
+            document.cookie = `firstname=${document.getElementById('firstname').value}; expires=${expires.toGMTString()}`;
+            document.cookie = `email=${document.getElementById('email').value}; expires=${expires.toGMTString()}`;
+
+            showWelcomeMessageOrForm();
+        }
+
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.split('=')[1];
+                }
+            }
+            return '';
+        }
+
+        function showCookies() {
+            let oldCookie = document.getElementById("shown-cookies");
+            if (oldCookie) {
+                oldCookie.remove();
+            }
+            let pTag = document.createElement("p");
+            pTag.setAttribute('id', 'shown-cookies')
+            pTag.innerText = `Email: ${getCookie('email')} - Firstname: ${getCookie('firstname')}`;
+            document.body.appendChild(pTag);
+        }
+
+        function deleteCookiesAndShowForm() {
+            document.cookie = "firstname=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "email=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            showForm();
+            let oldMessage = document.getElementById("welcome-message")
+            if (oldMessage) {
+                oldMessage.remove();
+            }
+        }
+
+        function showForm() {
+            const loginForm = document.getElementById('login-form');
+            loginForm.style.display = 'block';
+        }
+
+        function hideForm() {
+            const loginForm = document.getElementById('login-form');
+            loginForm.style.display = 'none';
+        }
+
+        function showWelcomeMessageOrForm() {
+            const firstname = getCookie('firstname');
+            const welcomeMessage = document.getElementById('welcome-message');
+
+            if (!welcomeMessage) {
+                const newWelcomeMessage = document.createElement('h1');
+                newWelcomeMessage.id = 'welcome-message';
+                document.body.appendChild(newWelcomeMessage);
+                welcomeMessage = newWelcomeMessage;
+            }
+
+            const logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.innerText = '(logout)';
+            logoutLink.style.fontWeight = 'normal';
+            logoutLink.style.fontStyle = 'italic';
+            logoutLink.style.marginLeft = '10px';
+            logoutLink.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent the default link behavior
+                deleteCookiesAndShowForm();
+                welcomeMessage.style.display = 'none';
+                showForm();
+            });
+
+            if (firstname) {
+                welcomeMessage.innerText = `Welcome ${firstname}`;
+                welcomeMessage.appendChild(logoutLink);
+                hideForm();
+            } else {
+                showForm();
+            }
+        }
+
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+
+</html>
