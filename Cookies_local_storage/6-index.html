@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 6</title>
+    <link rel="icon" type="image/ico" href="https://intranet.hbtn.io/favicon_black.ico">
+
+</head>
+<body>
+
+    <script>
+        var availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+        // Check if browser supports local storage
+        // if it does, display store w/ all available items & restore previously added items
+        if (typeof(Storage) !== "undefined") {
+            createStore();
+            displayCart();
+        } else { // if not, show alert
+            alert('Sorry, your browser does not support Web storage. Try again with a better one');
+        }
+
+        function addItemToCart(item) {
+            sessionStorage.setItem(item, true);
+        }
+
+        function createStore() {
+            let ul = document.createElement('ul');
+            document.body.appendChild(ul);
+
+            for (let i = 0; i < availableItems.length; i++) {
+                let li = document.createElement('li');
+                li.textContent = availableItems[i];
+                li.onclick = function() {
+                    addItemToCart(availableItems[i]);
+                }
+                ul.appendChild(li);
+            }
+        }
+
+        function displayCart() {
+            let count = 0;
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let key = sessionStorage.key(i);
+                if (availableItems.includes(key)) {
+                    count++;
+                }
+            }
+
+            if (count > 0) {
+                let p = document.createElement('p');
+                if (count === 1) {
+                    p.textContent = 'You previously had ' + count + ' item in your cart';
+                } else {
+                    p.textContent = 'You previously had ' + count + ' items in your cart';
+                }
+                document.body.appendChild(p);
+            }
+        }
+    </script>
+</body>
+</html>
